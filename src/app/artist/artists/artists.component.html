@@ -1,0 +1,43 @@
+<div
+  class="mat_form_field_class"
+  style="
+    margin: 16px 8px;
+    height: 38px;
+    padding: 0px 0px 0px 0px;
+    font-size: 16px;
+  "
+>
+  <div class="searchField">
+    <span class="material-icons"> search </span>
+    <input
+      type="text"
+      [(ngModel)]="searchInput"
+      matInput
+      placeholder=""
+      (keyup)="applyFilter()"
+    />
+  </div>
+</div>
+
+<div *ngIf="artists$ | async as artists">
+  <mat-card class="mb-3">
+    <div class="row mx-n2">
+      <div class="col-lg-3 col-md-6 px-2 py-2" *ngFor="let artist of artists">
+        <div class="media p-3 cardBlock" [routerLink]="['/artists', artist.id]">
+          <mat-card-title-group>
+            <mat-card-title>{{ artist.name }}</mat-card-title>
+            <mat-card-subtitle *ngIf="artist.nb_fan">
+              {{ artist.nb_fan }}
+              <span>{{ +artist.nb_fan > 1 ? "fans" : "fan" }}</span>
+            </mat-card-subtitle>
+            <mat-card-subtitle *ngIf="artist.nb_album">
+              {{ artist.nb_album }}
+              <span>{{ +artist.nb_album > 1 ? "albums" : "album" }}</span>
+            </mat-card-subtitle>
+            <img mat-card-lg-image src="{{ artist.picture }}" />
+          </mat-card-title-group>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

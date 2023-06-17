@@ -1,0 +1,13 @@
+<mat-toolbar *ngIf="user$ | async as user">
+    <img src="../../../assets/images/deezerLogo.png" width="10%" height="100%" [routerLink]="['/artists']" />
+  
+    <span class="example-spacer"></span>
+    
+    <div class="profileImage">
+        <img src="{{user.picture}}" width="40" height="40" alt="logo">
+    </div>
+  </mat-toolbar>
+
+  <div class="container-fluid">
+    <router-outlet></router-outlet>
+  </div>
