@@ -3,16 +3,11 @@ import { ArtistsService } from '../../Services/artists/artists.service';
 import { IArtist, ISearch, ISongs } from '../../interfaces/interface';
 import {
   Observable,
-  catchError,
   debounceTime,
   distinct,
   distinctUntilChanged,
-  empty,
-  filter,
   forkJoin,
   map,
-  of,
-  retry,
   startWith,
   switchMap,
 } from 'rxjs';
@@ -27,8 +22,8 @@ export class ArtistsComponent {
   userId: number = 5135649182;
   index: number = 0;
   limit: number = 20;
-  // searchInput: FormControl = new FormControl();
-  searchInput: string = '';
+  searchInput: FormControl = new FormControl();
+
   artists$!: Observable<IArtist[]>;
   defaultArtists$!: Observable<IArtist[]>;
   artistSearch$!: Observable<ISearch>;
@@ -36,12 +31,29 @@ export class ArtistsComponent {
 
   constructor(private artistService: ArtistsService) {}
 
-  ngOnInit(): void {
-    this.getArtists();
+  ngOnInit() {
+    this.searchFunction();
+  }
+
+  searchFunction() {
+    this.artists$ = this.searchInput.valueChanges.pipe(
+      startWith(''), // starts the stream with '' so that your initial artists are loaded
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap((term) => {
+        if (term) {
+          return this.artistService
+            .searchArtist(term, this.index, this.limit)
+            .pipe(map((artistData) => artistData.data));
+        } else {
+          return this.getArtists();
+        }
+      })
+    );
   }
 
   getArtists() {
-    this.artists$ = this.artistService
+    return this.artistService
       .getSongs(this.userId, this.index, this.limit)
       .pipe(
         switchMap((songs) => {
@@ -53,15 +65,5 @@ export class ArtistsComponent {
           );
         })
       );
-  }
-
-  applyFilter() {
-    if (this.searchInput) {
-      this.artists$ = this.artistService
-        .searchArtist(this.searchInput, this.index, this.limit)
-        .pipe(map((artistData) => artistData.data));
-    } else {
-      this.getArtists();
-    }
   }
 }

@@ -11,10 +11,9 @@
     <span class="material-icons"> search </span>
     <input
       type="text"
-      [(ngModel)]="searchInput"
+      [formControl]="searchInput"
       matInput
-      placeholder=""
-      (keyup)="applyFilter()"
+      placeholder="Search Artists"
     />
   </div>
 </div>
