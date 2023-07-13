@@ -39,4 +39,43 @@
     border: none;
     border-radius: 50%;
   }
-  
+
+  div.h3{
+    font-weight: bold;
+    font-size: 14px;
+  }
+
+.default-btn {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15) !important;
+  border-radius: 4px;
+  background: #ffffff !important;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: black !important;
+  height: 45px;
+  min-width: 115px !important;
+  // max-width: 200px;
+  // margin-left: auto;
+  margin-right: 0;
+  @media only screen and (max-width:767px){
+      font-size:15px;
+      padding:0 10px !important;
+  }
+
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+}
+
+.heading h3 {
+  margin: 0;
+  flex: 1; /* Allow the header to grow and fill available space */
+}
+
+.spacer {
+  flex: 1; /* Add a spacer element to push the button to the right */
+}

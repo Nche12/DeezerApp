@@ -1,8 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistsService } from 'src/app/Services/artists/artists.service';
-import { Observable, forkJoin, map, mergeMap, of, startWith, switchMap } from 'rxjs';
-import { IAlbumExtract, IArtist, IFullAlbum, ITopTrack } from '../../interfaces/interface';
+import {
+  Observable,
+  forkJoin,
+  map,
+  mergeMap,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
+import {
+  IAlbumExtract,
+  IArtist,
+  IFullAlbum,
+  ITopTrack,
+} from '../../interfaces/interface';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-artist-details',
@@ -16,7 +30,8 @@ export class ArtistDetailsComponent implements OnInit {
   albums$!: Observable<IFullAlbum[]>;
   constructor(
     private artistsService: ArtistsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) {}
 
   ngOnInit() {
@@ -28,7 +43,7 @@ export class ArtistDetailsComponent implements OnInit {
   getArtist(artistId: number) {
     this.artist$ = this.artistsService.getArtist(artistId);
   }
-  
+
   getArtistTopTracks(artistId: number, limit: number) {
     this.topTracks$ = this.artistsService
       .getTopTracks(artistId, limit)
@@ -44,4 +59,7 @@ export class ArtistDetailsComponent implements OnInit {
     );
   }
 
+  back() {
+    this.location.back();
+  }
 }
